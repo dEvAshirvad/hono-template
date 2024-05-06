@@ -1,13 +1,11 @@
 import { Context } from "hono";
-import Users, { UsersSchema } from "./auth.modal";
+import Users from "./auth.modal";
 import { SignJwt } from "../../lib/tokens";
 import { setCookie } from "hono/cookie";
 import { cookieConfig } from "../../configs/cookieConfig";
 import { HTTPException } from "hono/http-exception";
 import { SCOPES, oauth2Client } from "../../configs/G-OAuth2Client";
 import { google } from "googleapis";
-import mongoose from "mongoose";
-import { findMissingFields } from "../../lib/missingFields";
 
 export class AuthController {
 	public static async credentialCreate(c: Context) {
@@ -90,14 +88,6 @@ export class AuthController {
 
 	public static async currentUser(c: Context) {
 		const me = await c.get("jwtPayload");
-
-		// const user = await Users.findOne({ email: me?.email });
-		// if (!user) {
-		// 	return c.json({
-		// 		me,
-		// 	});
-		// }
-		// const missingFields = findMissingFields(user, UsersSchema);
 
 		return c.json({
 			me,

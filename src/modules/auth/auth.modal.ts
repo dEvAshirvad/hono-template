@@ -4,6 +4,7 @@ import { z } from "zod";
 export interface IUsers extends Document {
 	email: string;
 	name: string;
+	username: string;
 	gender: string;
 	image: string;
 	verified: boolean;
@@ -18,7 +19,7 @@ export const ZodUsersSchema = z.object({
 	password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
-const UsersSchema = new Schema<IUsers>(
+export const UsersSchema = new Schema<IUsers>(
 	{
 		email: {
 			type: String,
@@ -26,6 +27,9 @@ const UsersSchema = new Schema<IUsers>(
 			unique: true,
 		},
 		name: {
+			type: String,
+		},
+		username: {
 			type: String,
 		},
 		gender: {

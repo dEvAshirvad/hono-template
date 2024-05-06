@@ -10,24 +10,24 @@ import UserDeserializer from "./middlewares/userDeserializer";
 
 function ServerConfig(app: Hono) {
 	app.use(logger());
-	// app.use(
-	// 	bodyLimit({
-	// 		maxSize: 10 * 1024 * 1024, // 10MB
-	// 		onError: (c) => {
-	// 			throw new HTTPException(400, {
-	// 				cause: "Body Limit Exceed",
-	// 				message: "Overflow Size should be below 10MB",
-	// 			});
-	// 		},
-	// 	})
-	// );
-	// app.use(
-	// 	cors({
-	// 		//@ts-check check before prod
-	// 		origin: "*",
-	// 		credentials: true,
-	// 	})
-	// );
+	app.use(
+		bodyLimit({
+			maxSize: 10 * 1024 * 1024, // 10MB
+			onError: (c) => {
+				throw new HTTPException(400, {
+					cause: "Body Limit Exceed",
+					message: "Overflow Size should be below 10MB",
+				});
+			},
+		})
+	);
+	app.use(
+		cors({
+			//@ts-check check before prod
+			origin: "*",
+			credentials: true,
+		})
+	);
 
 	app.use(async (c, next) => {
 		setCookie(c, "lang", "en", cookieConfig({}));
